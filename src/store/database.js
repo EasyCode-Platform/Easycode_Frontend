@@ -1,3 +1,4 @@
+import { DataBaseService } from "@/services/apiServices"
 import { nanoid } from "nanoid"
 
 export default {
@@ -39,7 +40,7 @@ export default {
                     return
                 }
             })
-            localStorage.setItem('appsData', JSON.stringify(state.appsData))
+            // localStorage.setItem('appsData', JSON.stringify(state.appsData))
         },
         // 用于sidebar中切换navigation时，更新DManagaer的信息
         changeCurrentTableInfo(state, obj) {
@@ -61,7 +62,7 @@ export default {
                     state.appsData[index1].tables.forEach((table, index2) => {
                         if (table.tid === obj.tid) {
                             state.appsData[index1].tables[index2].name = obj.name
-                            localStorage.setItem('appsData', JSON.stringify(state.appsData))
+                            // localStorage.setItem('appsData', JSON.stringify(state.appsData))
                             state.currentTableInfo = state.appsData[index1].tables[index2]
                             return
                         }
@@ -76,7 +77,7 @@ export default {
                     state.appsData[index1].tables.forEach((table, index2) => {
                         if (table.tid === obj.tid) {
                             state.appsData[index1].tables.splice(index2, 1)
-                            localStorage.setItem('appsData', JSON.stringify(state.appsData))
+                            // localStorage.setItem('appsData', JSON.stringify(state.appsData))
                             return
                         }
                     })
@@ -87,46 +88,54 @@ export default {
     },
     actions: {
         getAppsData({commit}, uid) {
-            // TODO: 从远程获取appsData
-            commit('setAppsData', JSON.parse(localStorage.getItem('appsData')))
+            return new Promise((resolve) => {
+                // 从远程获取appsData
+                DataBaseService.getApps().then(({data}) => {
+                    commit('setAppsData', data.appsdata)
+                    resolve()
+                }).catch((err) => {
+                    console.log(err)
+                })
+                // commit('setAppsData', JSON.parse(localStorage.getItem('appsData')))
+            })
         },
         createNewTable({commit}, aid) {
             return new Promise((resolve) => {
-                // TODO: 从远程创建新表，返回新表的tid
-                let tid = nanoid()
-                commit('addNewTable', {
-                    aid: aid,
-                    table: {
-                        tid: tid,
-                        name: "未命名表单",
-                    }
+                // 从远程创建新表，返回新表的tid
+                DataBaseService.createNewTable(aid).then(({data}) => {
+                    commit('addNewTable', {
+                        aid: aid,
+                        table: {
+                            tid: data.table.tid,
+                            name: data.table.name,
+                        }
+                    })
+                    resolve(data.table.tid)
+                }).catch((err) => {
+                    console.log(err)
                 })
-                resolve(tid)
             })
         },
-        getCurrentTableFields({commit}, obj) {
-            // TODO: 从远程获取表字段
-            let result = localStorage.getItem('tableData' + obj.aid + '_' + obj.tid)
-            if (result === null) {
-                result = []
-            } else {
-                result = JSON.parse(result).fields
-            }
-            commit('setCurrentTableFields', result)
-        },
-        getCurrentTableRecords({commit}, obj) {
-            // TODO: 从远程获取表数据
-            let result = localStorage.getItem('tableData' + obj.aid + '_' + obj.tid)
-            if (result === null) {
-                result = []
-            } else {
-                result = JSON.parse(result).records
-            }
-            commit('setCurrentTableRecords', result)
+        getCurrentTableData({commit}, obj) {
+            // 从远程获取表数据和字段
+            DataBaseService.getTables(obj.aid, obj.tid).then(({data}) => {
+                commit('setCurrentTableFields', data.fields)
+                commit('setCurrentTableRecords', data.records)
+            }).catch((err) => {
+                console.log(err)
+            })
         },
         changeTableName({commit}, obj) {
-            // TODO: 修改远程的表名
-            commit('setTableName', obj)
+            // 修改远程的表名
+            DataBaseService.changeTableInfo(obj.aid, obj.tid, {
+                table: {
+                    name: obj.name
+                }
+            }).then(() => {
+                commit('setTableName', obj)
+            }).catch((err) => {
+                console.log(err)
+            })
         },
         saveTableFields({commit}, obj) {
             // TODO: 保存表数据到远程
@@ -137,9 +146,12 @@ export default {
             commit('setCurrentTableFields', obj.fields)
         },
         deleteTable({commit}, obj) {
-            // TODO: 删除远程数据表
-            localStorage.removeItem('tableData' + obj.aid + '_' + obj.tid)
-            commit('removeTable', obj)
+            // 删除远程数据表
+            DataBaseService.deleteTable(obj.aid, obj.tid).then(() => {
+                commit('removeTable', obj)
+            }).catch((err) => {
+                console.log(err)
+            })
         }
     }
 }

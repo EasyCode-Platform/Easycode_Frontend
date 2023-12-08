@@ -132,15 +132,7 @@ export default {
     },
     saveTable() {
       const invalidFields = this.fields.filter(field => !field.name || !field.type)
-      const invalidInfo = !this.info.name
-      if (invalidFields.length === 0 && !invalidInfo) {
-        if (this.info.name !== this.currentTableInfo.name) {
-          this.$store.dispatch('changeTableName', {
-            aid: this.aid,
-            tid: this.info.tid,
-            name: this.info.name
-          })
-        }
+      if (invalidFields.length === 0) {
         this.$store.dispatch('saveTableFields', {
           aid: this.aid,
           tid: this.info.tid,
@@ -174,7 +166,16 @@ export default {
       this.editInput = this.info.name
     },
     editTitleConfirm() {
-      this.info.name = this.editInput
+      if (!!this.editInput) {
+        this.info.name = this.editInput
+        this.$store.dispatch('changeTableName', {
+          aid: this.aid,
+          tid: this.info.tid,
+          name: this.info.name
+        })
+      } else {
+        this.$message.error('表名不能为空')
+      }
       this.isTitleEditing = false
     },
     deleteRow(index, rows) {

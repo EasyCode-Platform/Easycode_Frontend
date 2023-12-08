@@ -39,8 +39,7 @@ export default {
             this.$store.dispatch('createNewTable', aid).then((tid) => {
                 // 切换到新建的表单
                 this.$store.commit('changeCurrentTableInfo', { aid, tid })
-                this.$store.dispatch('getCurrentTableFields', { aid, tid })
-                this.$store.dispatch('getCurrentTableRecords', { aid, tid })
+                this.$store.dispatch('getCurrentTableData', { aid, tid })
                 eventBus.$emit('DManagerInit', aid)
             })
         },
@@ -48,8 +47,7 @@ export default {
             let aid = this.appsData[index1].aid
             let tid = this.appsData[index1].tables[index2].tid
             this.$store.commit('changeCurrentTableInfo', { aid, tid })
-            this.$store.dispatch('getCurrentTableFields', { aid, tid })
-            this.$store.dispatch('getCurrentTableRecords', { aid, tid })
+            this.$store.dispatch('getCurrentTableData', { aid, tid })
             eventBus.$emit('DManagerInit', aid)
         }
     }

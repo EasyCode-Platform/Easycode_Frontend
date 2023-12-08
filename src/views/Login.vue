@@ -73,7 +73,7 @@
   
   <style scoped>
   .login-container {
-    background: url("E:\low-code\visual-drag-demo\src\img\1.jpg") center center no-repeat;
+    background: url("../img/1.jpg") center center no-repeat;
     background-size: cover;
     width: 100%;
     height: 100vh;
