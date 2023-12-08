@@ -1,62 +1,54 @@
-# easycode_frontend
+一个低代码平台的前端部分，靠拖拉拽生成页面。
+## 功能点
+这是本项目具有的功能点，如果想了解详情请参考本项目的四篇文档，每个功能点都有不同程度的描述以及动图帮助你理解。
+1. 编辑器
+1. 自定义组件（文本、图片、矩形、圆形、直线、星形、三角形、按钮、表格、组合）
+1. 接口请求（通过接口请求组件数据）
+1. 组件联动
+1. 拖拽
+1. 删除组件、调整图层层级
+1. 放大缩小
+1. 撤消、重做
+1. 组件属性设置
+1. 吸附
+1. 预览、保存代码
+1. 绑定事件
+1. 绑定动画
+1. 拖拽旋转
+1. 复制粘贴剪切
+1. 多个组件的组合和拆分
+1. 锁定组件
+1. 网格线
 
-## 📚 说明
+## 在线 DEMO
+* [预览入口（Github）不翻墙可能速度慢](https://woai3c.github.io/visual-drag-demo)
 
-不具备学习价值
+## 文档
+* [可视化拖拽组件库一些技术要点原理分析](https://github.com/woai3c/Front-end-articles/issues/19)
+* [可视化拖拽组件库一些技术要点原理分析（二）](https://github.com/woai3c/Front-end-articles/issues/20)
+* [可视化拖拽组件库一些技术要点原理分析（三）](https://github.com/woai3c/Front-end-articles/issues/21)
+* [可视化拖拽组件库一些技术要点原理分析（四）](https://github.com/woai3c/Front-end-articles/issues/33)
+
+## 开发
+### 安装
+```
+npm i
+```
+### 运行
+```
+npm run dev
+```
+### 打包
+```
+npm run build
+```
+
+## License
+MIT
+
+## 赞助
+![](https://github.com/woai3c/nand2tetris/blob/master/img/wx.jpg)
+![](https://github.com/woai3c/nand2tetris/blob/master/img/zfb.jpg)
 
 
-## 运行
 
-手动安装husky
-
-`npm install husky`
-
-浏览器运行
-
-`npm run dev`
-
-electron运行
-
-`npm run electron:serve`
-
-## 💼 任务
-
-> 重要难度1-5
-1. 弄明白页面的设计（2）
-2. 对模块进行拆分，了解其实现的功能（4）
-3. 对模块之间的关联进行研究，参考文档进行学习（4）
-4. 修改整体的样式 (5)
-5. 在原本的基础上进行改造，添加新的功能 (5)
-
-## ✨ 学习目标 —— 功能点
-### 一、组件在画布当中的移动
-目录：src/components/Editor/index.vue
-
-### 二、改变图层
-目录：src/store/index.js
-原理：改变在componentData数组的位置（componentData是
-
-### 三、放大缩小
-目录：
-1. 插槽位置（给插，即统一渲染的组件）src/components/Editor/Shape.vue
-2. 传递数据：src/components/Editor/index.vue
-  a. 这个组件是进行页面组件的各种集合的一个组件
-原理：
-1. 设置事件监听，监听按下、抬起，当滑动的时候，一直给Vuex中赋值
-
-### 四、撤销和重做
-目录：src/store/snapshot.js
-原理：通过数组去保留每一个操作的页面数据，这个数据是一个大数组，里面存储小数组放有页面组件的值
-
-### 五、吸附
-目录：src/components/Editor/MarkLine.vue
-传值的组件：src/components/Editor/Shape.vue
-原理：当移动组件的时候，去判断与另外个组件的位置的差值（那是得与每一个组件都判断一遍吗）
-
-### 六、组件属性
-目录：src/custom-component/common/CommonAttr.vue
-原理：
-1. 根据v-model.number去区分使用的是数字输入框还是字符串
-
-### 七、绑定事件
-目录：src/utils/events.js（记录了事件的方法）

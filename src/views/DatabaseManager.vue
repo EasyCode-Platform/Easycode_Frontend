@@ -18,6 +18,7 @@ import DSidebar from '@/components/DatabaseManager/DSideBar'
 import DManager from '@/components/DatabaseManager/DManager'
 import { appsDataTest, tableData1_1, tableData1_2 } from '@/test/testData'
 import { mapState } from 'vuex'
+import store from '@/store'
 
 export default {
   components: {
@@ -29,18 +30,28 @@ export default {
     ...mapState(['appsData'])
   },
   beforeCreate() {
-    // 初始化测试数据
-    if (!localStorage.getItem('appsData')) {
-      localStorage.setItem('appsData', JSON.stringify(appsDataTest))
-    }
-    if (!localStorage.getItem('tableData1_1')) {
-      localStorage.setItem('tableData1_1', JSON.stringify(tableData1_1))
-    }
-    if (!localStorage.getItem('tableData1_2')) {
-      localStorage.setItem('tableData1_2', JSON.stringify(tableData1_2))
-    }
+    // // 初始化测试数据
+    // if (!localStorage.getItem('appsData')) {
+    //   localStorage.setItem('appsData', JSON.stringify(appsDataTest))
+    // }
+    // if (!localStorage.getItem('tableData1_1')) {
+    //   localStorage.setItem('tableData1_1', JSON.stringify(tableData1_1))
+    // }
+    // if (!localStorage.getItem('tableData1_2')) {
+    //   localStorage.setItem('tableData1_2', JSON.stringify(tableData1_2))
+    // }
 
-    this.$store.dispatch('getAppsData', 1)
+    // this.$store.dispatch('getAppsData', 1)
+  },
+  beforeRouteEnter(to, from, next) {
+    store.dispatch('getAppsData', 1).then(() => {
+      next()
+    })
+  },
+  beforeRouteUpdate(to, from, next) {
+    store.dispatch('getAppsData', 1).then(() => {
+      next()
+    })
   }
 }
 </script>

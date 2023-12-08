@@ -12,12 +12,6 @@ const events = {
             alert(msg)
         }
     },
-
-    console(msg) {
-        if (msg) {
-            console.log(msg)
-        }
-    },
 }
 
 const mixins = {
@@ -26,21 +20,15 @@ const mixins = {
 
 const eventList = [
     {
-        key: 'alert',
-        label: 'alert 事件',
-        event: events.alert,
-        param: '',
-    },
-    {
         key: 'redirect',
         label: '跳转事件',
         event: events.redirect,
         param: '',
     },
     {
-        key: 'console',
-        label: 'console 事件',
-        event: events.console,
+        key: 'alert',
+        label: 'alert 事件',
+        event: events.alert,
         param: '',
     },
 ]

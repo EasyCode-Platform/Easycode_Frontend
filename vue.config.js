@@ -3,6 +3,7 @@ const CompressionPlugin = require('compression-webpack-plugin')
 const isProd = process.env.NODE_ENV === 'production'
 
 module.exports = {
+    lintOnSave: false,
     // publicPath: isProd ? '/visual-drag-demo/' : './',
     publicPath: '/',
     configureWebpack: () => {
@@ -18,5 +19,4 @@ module.exports = {
             }
         }
     },
-  lintOnSave:false //关闭eslint检查
 }

@@ -3,7 +3,7 @@ import { getJwtToken } from "@/services/jwtServices";
 import store from "@/store";
 
 const axiosClient = axios.create({
-  baseURL: '',
+  baseURL: 'http://43.136.121.51:8004/',
   headers: {
     'Accept': 'application/json',
     'Content-Type': 'application/json'
@@ -12,7 +12,7 @@ const axiosClient = axios.create({
 
 axiosClient.interceptors.request.use((config) => {
   if (store.state.isAuthenticated)
-    config.headers.Authorization = `Token ${getJwtToken()}`
+    config.headers.Authorization = `${getJwtToken()}`
   return config
 }, (error) => {
   return Promise.reject(error)
@@ -35,5 +35,23 @@ export const ApiService = {
   },
   delete(resource) {
     return axiosClient.delete(resource)
+  }
+}
+
+export const DataBaseService = {
+  getApps() {
+    return ApiService.get('/database-manager/apps')
+  },
+  createNewTable(aid) {
+    return ApiService.post(`/database-manager/apps/${aid}/tables`)
+  },
+  getTables(aid, tid) {
+    return ApiService.get(`/database-manager/apps/${aid}/tables/${tid}`)
+  },
+  changeTableInfo(aid, tid, data) {
+    return ApiService.put(`/database-manager/apps/${aid}/tables/${tid}`, data)
+  },
+  deleteTable(aid, tid) {
+    return ApiService.delete(`/database-manager/apps/${aid}/tables/${tid}`)
   }
 }
