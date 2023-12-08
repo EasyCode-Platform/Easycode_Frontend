@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import ElementUI from 'element-ui'
+import axios from './plugins/axios'; // 根据需要调整路径
 import App from './App'
 import store from './store'
 import router from './router'
@@ -19,4 +20,4 @@ new Vue({
     router,
     store,
     render: h => h(App),
-})
+}).$mount('#app');
