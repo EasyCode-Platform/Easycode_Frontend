@@ -41,6 +41,7 @@ const data = {
         // 点击画布时是否点中组件，主要用于取消选中组件用。
         // 如果没点中组件，并且在画布空白处弹起鼠标，则取消当前组件的选中状态
         isClickComponent: false,
+        userAvatar: null,
     },
     mutations: {
         ...animation.mutations,
@@ -52,6 +53,10 @@ const data = {
         ...snapshot.mutations,
         ...lock.mutations,
         ...database.mutations,
+
+        setUserAvatar(state, avatar) {
+            state.userAvatar = avatar;
+        },
 
         aceSetCanvasData(state, value) {
             state.canvasStyleData = value
@@ -88,10 +93,6 @@ const data = {
             state.curComponentIndex = index
         },
 
-        setComponentData(state, data) {
-            state.componentData = data
-        },
-
         setShapeStyle({ curComponent }, { top, left, width, height, rotate }) {
             if (top) curComponent.style.top = Math.round(top)
             if (left) curComponent.style.left = Math.round(left)
@@ -107,14 +108,13 @@ const data = {
         setComponentData(state, componentData = []) {
             Vue.set(state, 'componentData', componentData)
         },
-        
+
         addComponent(state, { component, index }) {
             if (index !== undefined) {
                 state.componentData.splice(index, 0, component)
             } else {
                 state.componentData.push(component)
             }
-            console.log(state.componentData)
         },
 
         deleteComponent(state, index) {

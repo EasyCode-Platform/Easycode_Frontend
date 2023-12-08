@@ -26,13 +26,47 @@ export default {
                 username: '',
                 password: '',
             },
+            userAvatar: null,
         };
     },
     methods: {
-        handleLogin() {
-            // 处理登录逻辑，可以使用 Vue Router 进行页面跳转或者发送登录请求
-            // 示例：this.$router.push('/dashboard');
-        },
+        async handleLogin() {
+      try {
+        const response = await this.$axios.post('/your-backend-login-endpoint', {
+          username: this.loginForm.username,
+          password: this.loginForm.password,
+        });
+
+        if (response.data.success) {
+          const targetUserID = response.data.userID;
+
+          const targetUserResponse = await this.$axios.get(`/api/v1/dataControl/users/${targetUserID}`, {
+            headers: {
+              RequestToken: btoa(md5(targetUserID)),
+            },
+          });
+          // 存储用户头像路径
+          this.$store.commit('setUserAvatar', './img/user.jpg');
+
+
+          // 在实际应用程序中，根据后端响应存储更多的用户信息和权限
+          const token = targetUserResponse.data.token;
+          this.$store.commit('setToken', token); // 通过 Vuex 存储 Token
+
+          // 导航到下一个页面
+          this.$router.push('/Home');
+        }
+      } catch (error) {
+        console.error('登录失败:', error.message);
+
+        // 根据后端响应显示更详细的错误消息
+        if (error.response && error.response.data) {
+          this.$message.error(error.response.data.message);
+        } else {
+          this.$message.error('登录失败，请稍后再试。');
+        }
+      }
+    },
         goToRegister() {
             // Redirect to the registration page
             this.$router.push('/register');

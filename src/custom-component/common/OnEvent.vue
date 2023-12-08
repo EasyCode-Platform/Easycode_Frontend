@@ -16,7 +16,6 @@ export default {
         if (this.linkage?.data?.length) {
             eventBus.$on('v-click', this.onClick)
             eventBus.$on('v-hover', this.onHover)
-            eventBus.$on('v-space', this.onSpace)
         }
     },
     mounted() {
@@ -29,7 +28,6 @@ export default {
         if (this.linkage?.data?.length) {
             eventBus.$off('v-click', this.onClick)
             eventBus.$off('v-hover', this.onHover)
-            eventBus.$off('v-space', this.onSpace)
         }
     },
     methods: {
@@ -50,11 +48,6 @@ export default {
 
         onHover(componentId) {
             const data = this.linkage.data.filter(item => item.id === componentId && item.event === 'v-hover')
-            this.changeStyle(data)
-        },
-
-        onSpace(componentId) {
-            const data = this.linkage.data.filter(item => item.id === componentId && item.event === 'v-space')
             this.changeStyle(data)
         },
     },

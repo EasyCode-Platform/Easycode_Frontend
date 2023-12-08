@@ -6,12 +6,10 @@
         <Invitebutton />
         <main>
             <!-- 左侧组件列表 -->
-            <div class="left">
-                <div class="cao">
-                    <ComponentList />
-                    <RealTimeComponentList />
-                </div>
-            </div>
+            <section class="left">
+                <ComponentList />
+                <RealTimeComponentList />
+            </section>
             <!-- 中间画布 -->
             <section class="center">
                 <div
@@ -28,9 +26,11 @@
             <section class="right">
                 <el-tabs v-if="curComponent" v-model="activeName">
                     <el-tab-pane label="属性" name="attr">
+                        <!-- 通过动态组件，根据当前选中组件的类型加载相应的属性编辑组件。 -->
                         <component :is="curComponent.component + 'Attr'" />
                     </el-tab-pane>
                     <el-tab-pane label="动画" name="animation" style="padding-top: 20px;">
+                        <!-- 加载动画列表组件，展示组件的动画设置。 -->
                         <AnimationList />
                     </el-tab-pane>
                     <el-tab-pane label="事件" name="events" style="padding-top: 20px;">
@@ -44,12 +44,13 @@
 </template>
 
 <script>
+import LoginButton from '@/components/loginbutton' // 导入LoginButton组件
 import Editor from '@/components/Editor/index'
 import ComponentList from '@/components/ComponentList' // 左侧列表组件
 import AnimationList from '@/components/AnimationList' // 右侧动画列表
 import EventList from '@/components/EventList' // 右侧事件列表
 import componentList from '@/custom-component/component-list' // 左侧列表数据
-import Toolbar from '@/components/Toolbar' // 上方工具栏
+import Toolbar from '@/components/Toolbar'
 import { deepCopy } from '@/utils/utils'
 import { mapState } from 'vuex'
 import generateID from '@/utils/generateID'
@@ -58,30 +59,25 @@ import RealTimeComponentList from '@/components/RealTimeComponentList'
 import CanvasAttr from '@/components/CanvasAttr'
 import { changeComponentSizeWithScale } from '@/utils/changeComponentsSizeWithScale'
 import { setDefaultcomponentData } from '@/store/snapshot'
-import LoginButton from '@/components/loginbutton' // 导入LoginButton组件
 import Housebutton from '@/components/housebutton.vue'
 import Invitebutton from '@/components/invitebutton.vue'
 
 export default {
-    components: {
-        Editor,
-        ComponentList,
-        AnimationList,
-        EventList,
-        Toolbar,
-        RealTimeComponentList,
-        CanvasAttr,
-        LoginButton,
-        Housebutton, 
-        Invitebutton
-    },
+    components: 
+    { Editor, ComponentList, AnimationList, EventList, Toolbar, RealTimeComponentList, CanvasAttr, LoginButton, Housebutton, Invitebutton },
     data() {
         return {
             activeName: 'attr',
             reSelectAnimateIndex: undefined,
         }
     },
-    computed: mapState(['componentData', 'curComponent', 'isClickComponent', 'canvasStyleData', 'editor']),
+    computed: mapState([
+        'componentData',
+        'curComponent',
+        'isClickComponent',
+        'canvasStyleData',
+        'editor',
+    ]),
     created() {
         this.restore()
         // 全局监听按键事件
@@ -112,7 +108,7 @@ export default {
                 component.style.left = e.clientX - rectInfo.x
                 component.id = generateID()
 
-                // 根据画面比例修改组件样式比例 
+                // 根据画面比例修改组件样式比例 https://github.com/woai3c/visual-drag-demo/issues/91
                 changeComponentSizeWithScale(component)
 
                 this.$store.commit('addComponent', { component })
@@ -148,11 +144,11 @@ export default {
 <style lang="scss">
 .home {
     height: 100vh;
-    background: #f5f5f5;
+    background: #fff;
 
-  main {
-    height: calc(100% - 64px);
-    position: relative;
+    main {
+        height: calc(100% - 64px);
+        position: relative;
 
         .left {
             position: absolute;
@@ -160,18 +156,10 @@ export default {
             width: 200px;
             left: 0;
             top: 0;
-            background-color: white;
 
             & > div {
                 overflow: auto;
-            & > div {
-                overflow: auto;
 
-                &:first-child {
-                    border-bottom: 1px solid #ddd;
-                }
-            }
-        }
                 &:first-child {
                     border-bottom: 1px solid #ddd;
                 }
@@ -180,17 +168,10 @@ export default {
 
         .right {
             position: absolute;
-            height: 95%;
+            height: 100%;
             width: 288px;
-            right: 10px;
-            top: 10px;
-            background-color: #f8f8f8;
-            border-radius: 35px;
-            box-shadow:
-                15px 15px 30px -10px rgba(0, 0, 0, .2),
-                inset 20px 20px 15px rgba(255, 255, 255, .7),
-                -15px -15px 35px rgba(255, 255, 255, .7),
-                inset -1px 1px 10px rgba(0, 0, 0, .5);
+            right: 0;
+            top: 0;
 
             .el-select {
                 width: 100%;
@@ -221,4 +202,5 @@ export default {
     .global-attr {
         padding: 10px;
     }
+}
 </style>

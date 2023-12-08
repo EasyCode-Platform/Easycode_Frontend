@@ -3,6 +3,7 @@
 @import './variable.scss';
 
 /*!
+ * animate.css -https://daneden.github.io/animate.css/
  * Version - 3.7.2
  * Licensed under the MIT license - http://opensource.org/licenses/MIT
  *
@@ -113,6 +114,7 @@
     animation-name: flash;
 }
 
+/* originally authored by Nick Pettit - https://github.com/nickpettit/glide */
 
 @-webkit-keyframes pulse {
     from {
@@ -490,6 +492,7 @@
     animation-name: tada;
 }
 
+/* originally authored by Nick Pettit - https://github.com/nickpettit/glide */
 
 @-webkit-keyframes wobble {
     from {
@@ -2863,6 +2866,7 @@
     animation-name: jackInTheBox;
 }
 
+/* originally authored by Nick Pettit - https://github.com/nickpettit/glide */
 
 @-webkit-keyframes rollIn {
     from {
@@ -2897,6 +2901,7 @@
     animation-name: rollIn;
 }
 
+/* originally authored by Nick Pettit - https://github.com/nickpettit/glide */
 
 @-webkit-keyframes rollOut {
     from {

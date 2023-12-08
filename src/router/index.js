@@ -33,7 +33,7 @@ const routes = [
         path: '/house',
         name: 'House',
         component: () => import('@/views/House'), // 创建仓库页面组件并引入
-    }
+    },
 ]
 
 export default new Router({

@@ -1,6 +1,16 @@
 <template>
+    <div>
+        
     <div class="house-container">
         <h2 class="heading">历史项目</h2>
+        <div class="divider"></div>
+        <router-link to="/">
+            <el-button class="nav-button">新建新项目</el-button>
+          </router-link>
+        <router-link to="/database-manager">
+            <el-button class="nav-button">数据源管理</el-button>
+          </router-link>
+          
         <div class="divider"></div>
         <div class="project-list">
             <!-- Project boxes go here -->
@@ -13,8 +23,11 @@
             >
                 <!-- Customize the content of each project box as needed -->
                 {{ project.name }}
+
             </div>
+           
         </div>
+    </div>
     </div>
 </template>
   
@@ -54,7 +67,7 @@ export default {
 
 .divider {
     border-bottom: 2px solid #ddd;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .project-list {
@@ -75,6 +88,16 @@ export default {
     cursor: pointer;
     transition: transform .2s;
 }
+
+/* 数据源管理按钮样式调整 */
+.nav-button {
+    margin-left: auto; 
+    margin-right: 10px;
+    margin-top: 5px; /* 调整按钮与项目之间的间距 */
+    margin-bottom: 15px;
+    font-size: 18px; /* 调整按钮字体大小 */
+    padding: 10px 20px; /* 调整按钮内边距 */
+  }
 
 .project-box:hover {
     transform: scale(1.05);
