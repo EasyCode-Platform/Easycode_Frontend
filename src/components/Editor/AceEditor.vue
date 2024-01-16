@@ -55,12 +55,16 @@ export default {
     computed: mapState([
         'canvasStyleData',
         'curComponent',
+        'componentData',
     ]),
     watch: {
         curComponent() {
             this.setCode()
         },
         canvasStyleData() {
+            this.setCode()
+        },
+        componentData() {
             this.setCode()
         },
     },
@@ -79,22 +83,25 @@ export default {
             enableSnippets: true,
         })
 
-        this.obj = this.curComponent || this.canvasStyleData
+        // this.obj = this.curComponent || this.canvasStyleData
+        this.obj = this.componentData
         this.editor.setValue(JSON.stringify(this.obj, null, 4))
     },
     methods: {
         setCode() {
-            this.obj = this.curComponent || this.canvasStyleData
+            // this.obj = this.curComponent || this.canvasStyleData
+            this.obj = this.componentData
             this.editor.setValue(JSON.stringify(this.obj, null, 4))
         },
 
         getCode() {
             let str = this.editor.getValue()
-            if (!this.curComponent) {
-                this.$store.commit('aceSetCanvasData', JSON.parse(str))
-            } else {
-                this.$store.commit('aceSetcurComponent', JSON.parse(str))
-            }
+            // if (!this.curComponent) {
+            //     this.$store.commit('aceSetCanvasData', JSON.parse(str))
+            // } else {
+            //     this.$store.commit('aceSetcurComponent', JSON.parse(str))
+            // }
+            this.$store.commit('aceSetComponentData', JSON.parse(str))
         },
 
         updateEditorTheme(theme) {
@@ -126,6 +133,7 @@ export default {
 .editor {
     margin: 10px 5px;
 }
+
 .btn {
     margin-top: 5px;
 }

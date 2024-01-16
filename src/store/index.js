@@ -72,6 +72,10 @@ const data = {
             state.curComponent = value
         },
 
+        aceSetComponentData(state, value) {
+            state.componentData = value
+        },
+
         setClickComponentStatus(state, status) {
             state.isClickComponent = status
         },
@@ -133,8 +137,8 @@ const data = {
         },
     },
     actions: {
-        ...database.actions
-    }
+        ...database.actions,
+    },
 }
 
 export default new Vuex.Store(data)
